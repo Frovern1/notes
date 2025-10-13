@@ -9,19 +9,26 @@ def create_table():
     cursor.execute("""CREATE TABLE IF NOT EXISTS notes(
         id INTEGER PRIMARY KEY UNIQUE NOT NULL,
         name STR, 
-        note STR
+        note STR,
+        userid INTEGER,
+        FOREIGN KEY(userid) REFERENCES users(id)
+        )""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY UNIQUE NOT NULL,
+        name STR UNIQUE,
+        password STR
         )""")
     connection.commit()
     
-    
+#TODO: ДОБАВИТЬ СВЯЗЬ С ПОЛЬЗОВАТЕЛЕМ 
 def add(name, note):
     cursor.execute("""INSERT INTO notes(
         name,
-        note
+        note   
         ) VALUES(?,?)""", (name, note))
     connection.commit()
     
-    
+#TODO: ДОБАВИТЬ СВЯЗЬ С ПОЛЬЗОВАТЕЛЕМ 
 def get_all():
     cursor.execute("""SELECT * FROM notes""")
     inf = cursor.fetchall()
@@ -43,6 +50,16 @@ def get_note(id):
     inf = cursor.fetchone()
     return inf
 
+def add_user(name, password):
+    cursor.execute("""INSERT INTO users(
+        name,
+        password
+        ) VALUES(?,?)""", (name, password))
+    connection.commit()
+    
+def get_user(name):
+    cursor.execute("""SELECT * FROM users WHERE name = ?""", (name,))
+    return cursor.fetchone()
 
 create_table()
 

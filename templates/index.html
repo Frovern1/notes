@@ -1,1 +1,83 @@
-<h1>GUHjhhj</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>notes</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='note.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="user">
+            {%if session.userid%}
+                <a href="/logout">Выйти</a>
+            {%else%}
+                <a href="/login">Войти</a>
+                <a href="/signup">Зарегистрироваться</a>
+            {%endif%}
+        </div>
+    </nav>
+    <div class="scroll-wrapper">
+        <div class="notes-list">
+            <div class="notes-list-name">
+                <h1 style="margin-left:20%;">Список заметок</h1>
+            </div>
+            <div class="notes">
+                {%for note in notes%}
+                    <a href="/notes/{{note.0}}">
+                        {%if current_note%}    
+                            {%if note.0 == current_note.0%}
+                                <div class="note selected">
+                                    {{note.1}}
+                                </div>
+                            {%else%}
+                                <div class="note">
+                                    {{note.1}}
+                                </div>
+                            {%endif%} 
+                        {%else%} 
+                                <div class="note">
+                                    {{note.1}}
+                                </div>
+                        {%endif%} 
+                    </a>
+                {%endfor%}
+
+            </div>
+        </div>
+        <div class="current-note">
+            <form method="post">
+                <div class="note-name">
+                    {%if current_note%}
+                        <input type="text" name="note-name" style="margin-left: 38%;" value="{{current_note.1}}">
+                    {%else%}
+                        <input type="text" name="note-name" style="margin-left: 38%;" value="Новая заметка">
+
+                    {%endif%}
+                </div>
+            
+                <div class="note-text">
+                
+
+                    {%if current_note%}
+                        <textarea name="note-text" class="tinos-regular">{{current_note.2}}</textarea>
+                    {%else%}
+                        <textarea name="note-text" class="tinos-regular">Ввеедите текст</textarea>
+                    {%endif%}
+                    <div class="save-note">
+                        <button class="save-button">Сохранить</button>
+                        {%if current_note%}
+                            <a class="delete-button" href="/delete/note/{{current_note.0}}">Удалить</a>
+                        {%endif%}
+                    </div>
+                </div>
+            </form>
+        </div>
+        <a href="/" class="add-new-note" >+</a>
+        <script src = '{{url_for("static", filename="note.js")}}'></script>
+    <div>
+</body>
+</html>
+
