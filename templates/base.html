@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='login.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='note.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="user">
+            {%if session.userid%}
+                <a class="nav" href="/logout">Выйти</a>
+            {%else%}
+                <a class="nav" href="/login">Войти</a>
+                <a class="nav" href="/signup">Зарегистрироваться</a>
+            {%endif%}
+        </div>
+    </nav>
+    {%block content%}
+    {%endblock%}
+</body>
+<script src = '{{url_for("static", filename="note.js")}}'></script>
+</html>
